@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head> 
+   <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+  }
+
+  .navbar {
+    background-color: #292b2c;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .navbar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  .navbar ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+  }
+
+  .navbar ul li {
+    margin-right: 20px;
+  }
+
+  .navbar ul li:last-child {
+    margin-right: 0;
+  }
+
+  .navbar ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+
+  .navbar ul li a:hover {
+    color: #ff9900;
+  }
+
+  .icon {
+    display: none;
+    color: #ffffff;
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  @media screen and (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .navbar .logo {
+      margin-bottom: 10px;
+    }
+
+    .icon {
+      display: block;
+      margin-top: 10px;
+    }
+
+    .navbar ul {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: #292b2c;
+      width: 100%;
+      flex-direction: column;
+    }
+
+    .navbar.active ul {
+      display: flex;
+    }
+
+    .navbar ul li {
+      margin: 10px 0;
+      text-align: center;
+    }
+
+    .navbar ul li a {
+      font-size: 16px;
+    }
+  }
+</style>
+
+
+
+<div class="navbar" id="navbar">
+<a href="#" class="logo">MyTechSite</a>
+<ul>
+  <li><a href="NumberGuessingGame.html">Number Guessing Game</a></li>
+
+</ul>
+<div class="icon" onclick="toggleNavbar()">
+  &#9776;
+</div>
+</div>
+
+<script>
+function toggleNavbar() {
+  const navList = document.querySelector(".navbar ul");
+  navList.classList.toggle("active");
+}
+</script>
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Converter</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Code Converter</h1>
+
+    <div class="code-section">
+      <h2>Encode / Decode</h2>
+
+      <select id="code-type-select">
+        <option value="morse">Morse Code</option>
+        <option value="binary">Binary</option>
+        <option value="ascii">ASCII</option>
+        <option value="base64">Base64</option>
+        <option value="caesar">Caesar Cipher</option>
+      </select>
+
+      <textarea id="input-text" rows="5" placeholder="Enter text..."></textarea>
+      <textarea id="output-text" rows="5" placeholder="Output will appear here" readonly></textarea>
+
+      <div class="button-section">
+        <button id="encode-btn">Encode</button>
+        <button id="decode-btn">Decode</button>
+      </div>
+    </div>
+
+    <div class="code-info-section">
+      <h2>Code Information</h2>
+      <div class="code-info" id="morse-info">
+        <h3>Morse Code</h3>
+        <p>Morse code is a method used in telecommunication to encode text characters as sequences of two different signal durations, called dots and dashes. It is named after Samuel Morse, one of the inventors of the telegraph.</p>
+        <p>To encode text into Morse code, each character is represented by a series of dots (.) and dashes (-). For example, the letter 'A' is represented as ".-", and the letter 'B' is represented as "-...".</p>
+      </div>
+      <div class="code-info" id="binary-info">
+        <h3>Binary</h3>
+        <p>Binary code is a coding system using the binary digits 0 and 1 to represent characters or instructions in a computer or digital device. It is the fundamental language of computers.</p>
+        <p>In binary code, each character is represented by a sequence of 0s and 1s. For example, the letter 'A' can be represented as "01000001".</p>
+      </div>
+      <div class="code-info" id="ascii-info">
+        <h3>ASCII</h3>
+        <p>ASCII (American Standard Code for Information Interchange) is a character encoding standard that represents text characters as integers. It is widely used in computers and electronic communication.</p>
+        <p>Each ASCII character is represented by a unique 7-bit binary number. For example, the letter 'A' is represented as 65 in decimal or 01000001 in binary.</p>
+      </div>
+      <div class="code-info" id="base64-info">
+        <h3>Base64</h3>
+        <p>Base64 is a binary-to-text encoding scheme that allows binary data to be represented as ASCII characters. It is commonly used for transmitting data over text-based protocols.</p>
+        <p>In Base64, each set of three bytes is represented by four characters. For example, the string "Hello" can be represented as "SGVsbG8=" in Base64.</p>
+      </div>
+      <div class="code-info" id="caesar-info">
+        <h3>Caesar Cipher</h3>
+        <p>The Caesar cipher is a simple substitution cipher where each letter in the plaintext is shifted a certain number of positions down or up the alphabet. It is named after Julius Caesar, who is said to have used this cipher.</p>
+        <p>In the Caesar cipher, a shift of 1 means 'A' becomes 'B', 'B' becomes 'C', and so on. For example, with a shift of 3, the plaintext "HELLO" is encrypted as "KHOOR".</p>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="script.js"></script>
+</body>
+
+</html>
+
+
+
+

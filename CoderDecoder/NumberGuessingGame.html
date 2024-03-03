@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Awesome Number Guessing Game</title>
+    <style>
+        /* Styles for the navigation bar */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-image: linear-gradient(to bottom right, #396afc, #2948ff);
+            color: #fff;
+            text-align: center;
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        .navbar a {
+            font-size: 20px;
+            color: #fff;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .navbar a:hover {
+            color: #ff6b6b;
+        }
+
+        /* Styles for the game */
+        .game-container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            margin: 100px auto;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #ff6b6b;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 20px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #ff4d4d;
+        }
+
+        .scoreboard {
+            margin-top: 20px;
+            font-size: 24px;
+            color: #fff;
+        }
+
+        input {
+            padding: 10px;
+            border: 2px solid #396afc;
+            border-radius: 5px;
+            font-size: 20px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        #message {
+            margin-top: 10px;
+            font-size: 24px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="#">Awesome Number Guessing</a>
+    </div>
+
+    <div class="game-container">
+        <h1>Awesome Number Guessing Game</h1>
+        <p>Can you guess the secret number between 1 and 100?</p>
+        <input type="number" id="guess" min="1" max="100">
+        <button id="check-btn">Check</button>
+        <p id="message"></p>
+        <div class="scoreboard">
+            <p>Score: <span id="score">0</span></p>
+            <p>Time: <span id="timer">10</span> seconds</p>
+            <p>Attempts: <span id="attempts">0</span></p>
+        </div>
+        <button id="play-again" style="display: none;">Play Again</button>
+        <button id="reset" style="display: none;">Reset Game</button>
+    </div>
+
+    <script>
+        const guessInput = document.getElementById('guess');
+        const checkBtn = document.getElementById('check-btn');
+        const message = document.getElementById('message');
+        const scoreDisplay = document.getElementById('score');
+        const timerDisplay = document.getElementById('timer');
+        const attemptsDisplay = document.getElementById('attempts');
+        const playAgainBtn = document.getElementById('play-again');
+        const resetBtn = document.getElementById('reset');
+
+        let targetNumber;
+        let score = 0;
+        let time = 10;
+        let isGameActive = true;
+        let attempts = 0;
+        const maxAttempts = 5;
+
+        function generateRandomNumber() {
+            return Math.floor(Math.random() * 100) + 1;
+        }
+
+        function updateScoreboard() {
+            scoreDisplay.textContent = score;
+            timerDisplay.textContent = time;
+            attemptsDisplay.textContent = attempts;
+        }
+
+        function startTimer() {
+            const interval = setInterval(() => {
+                if (isGameActive) {
+                    time--;
+                    updateScoreboard();
+                    if (time === 0) {
+                        clearInterval(interval);
+                        endGame(`Time's up! The number was ${targetNumber}.`);
+                    }
+                }
+            }, 1000);
+        }
+
+        function disableGame() {
+            guessInput.disabled = true;
+            checkBtn.disabled = true;
+            isGameActive = false;
+            playAgainBtn.style.display = 'block';
+            if (attempts >= maxAttempts) {
+                resetBtn.style.display = 'block';
+            }
+        }
+
+        function endGame(messageText) {
+            message.textContent = messageText;
+            disableGame();
+        }
+
+        function playAgain() {
+            targetNumber = generateRandomNumber();
+            time = 10;
+            isGameActive = true;
+            guessInput.value = '';
+            guessInput.disabled = false;
+            checkBtn.disabled = false;
+            message.textContent = '';
+            playAgainBtn.style.display = 'none';
+            resetBtn.style.display = 'none';
+            attempts = 0;
+            updateScoreboard();
+            startTimer();
+        }
+
+        function resetGame() {
+            score = 0;
+            playAgain();
+        }
+
+        checkBtn.addEventListener('click', () => {
+            if (!isGameActive) return;
+            checkGuess();
+        });
+
+        guessInput.addEventListener('keyup', (event) => {
+            if (!isGameActive) return;
+            if (event.key === 'Enter') {
+                checkGuess();
+            }
+        });
+
+        function checkGuess() {
+            const userGuess = parseInt(guessInput.value);
+            attempts++;
+            if (userGuess === targetNumber) {
+                endGame(`Congratulations! You guessed it in ${attempts} attempts!`);
+                score++;
+            } else if (userGuess < targetNumber) {
+                message.textContent = 'Try a higher number.';
+            } else {
+                message.textContent = 'Try a lower number.';
+            }
+            if (attempts >= maxAttempts) {
+                endGame(`Out of attempts. The number was ${targetNumber}.`);
+            }
+        }
+
+        playAgainBtn.addEventListener('click', playAgain);
+        resetBtn.addEventListener('click', resetGame);
+
+        playAgain(); // Start the game on page load
+    </script>
+</body>
+</html>
